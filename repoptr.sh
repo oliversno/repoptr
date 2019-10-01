@@ -19,6 +19,17 @@ do_init() {
     touch .ptrs
 }
 
+do_add() {
+    if [[ -e .ptrs ]]; then
+        for arg in $@; do
+            echo $arg >> .ptrs
+        done
+    else
+        echo "repoptr: fatal. repoptr not initilized"
+        invalid_use
+    fi
+}
+
 check_ptrs() {
     rm temp 2>>/dev/null
     while read line; do
@@ -40,4 +51,8 @@ if [[ $1 == '--help' ]] || [[ $1 == '-h' ]]; then
     help_output
 elif [[ $1 == 'init' ]]; then
     do_init
+elif [[ $1 == 'add' ]]; then
+    do_add ${@:2}
 fi
+
+
