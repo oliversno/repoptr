@@ -33,7 +33,7 @@ do_add() {
 do_rm() {
     if [[ -e .ptrs ]]; then
         for arg in $@; do
-            grep -q "$arg" < .ptrs
+            grep -q "^$arg$" < .ptrs
             if [[ $? -eq 0 ]]; then
                 sed -i "/$arg/d" .ptrs
                 echo $arg 'no longer pointed to'
@@ -47,19 +47,38 @@ do_rm() {
     fi
 }
 
-check_ptrs() {
-    rm temp 2>>/dev/null
-    while read line; do
-        line="$(echo "$line"|tr -d '\n')" # strip \n
-        echo $line
-        #git ls-remote $line
-        git clone $line
-        echo $?
-        #if [[ $? -ne 0 ]]; then
-        echo $line >> temp
-        #fi
-    done < .ptrs
+do_list() {
+    if [[ -e .ptrs ]]; then
+        cat .ptrs
+    else
+        echo "repoptr: fatal. repoptr not initilized"
+        invalid_use
+    fi
 }
+
+do_update(){
+    if [[ -e .ptrs ]]; then
+        if [[ $1 == '--all' ]]; then
+            repos=(`cat ".ptrs"`)
+        else
+            for repo in $@; do
+                grep -q "^$repo$" < .ptrs
+                if [[ $? -eq 0 ]]; then
+                    repos+=($repo)
+                else
+                    echo "repoptr: $repo not pointed to"
+                fi
+            done
+        fi
+        for repo in $repos; do
+            git clone $repo
+        done
+    else
+        echo "repoptr: fatal. repoptr not initilized"
+        invalid_use
+    fi
+}
+
 
 if [[ $# -lt 1 ]]; then
     invalid_use
@@ -72,6 +91,8 @@ elif [[ $1 == 'add' ]]; then
     do_add ${@:2}
 elif [[ $1 == 'rm' ]]; then
     do_rm ${@:2}
+elif [[ $1 == 'list' ]]; then
+    do_list
+elif [[ $1 == 'update' ]]; then
+    do_update ${@:2}
 fi
-
-
