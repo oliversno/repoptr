@@ -23,23 +23,30 @@ A tool for organizations to make one super repo that points to other repos
 Run `repoptr add [remote]` to add a remote repo to point to. Your local version of the remote repo will be updated whenever `reoptr update` is run. Objects that are not a valid remote can be added, but they will not point to anything.
 ### Example
 ``` 
-~/super $ cat .ptrs
+~/super $ repoptr list
 ~/super $
 ~/super $ repoptr add https://github.com/user/example.git
-~/super $ cat .ptrs
+~/super $ repoptr list
 ~/super $ https://github.com/user/example.git
 ```
 ## repoptr rm
 Run `repoptr rm [remote]` to remove a remote repo to point to. Your local version of the remote repo will no longer be updated whenever `reoptr update` is run. If you remove a repo you were not pointing to nothing will happen.
 ### Example
 ```
-~/super $ cat .ptrs
+~/super $ repoptr list
 ~/super $ https://github.com/user/example.git
 https://github.com/user/other.git
 ~/super $ repoptr rm https://github.com/user/example.git
 ~/super $ https://github.com/user/example.git no longer pointed to
-~/super $ cat .ptrs
+~/super $ repoptr list
 ~/super $ https://github.com/user/other.git
 ~/super $ repoptr rm garbage
 ~/super $ Nothing to be removed
 ```
+## repoptr list
+Run `repoptr list` to list all pointed to remotes.
+### Example
+```
+~/super $ repoptr list
+~/super $ https://github.com/user/example.git
+https://github.com/user/other.git
