@@ -19,3 +19,13 @@ A tool for organizations to make one super repo that points to other repos
  ~/super/ $ repoptr init
  ~/super/ $ Reinitialized existing repo pointers in ~/super/.ptrs/
  ```
+## repoptr add
+Run `repoptr add [remote]` to add a remote repo to point to. Your local version of the remote repo will be updated whenever `reoptr update` is run. Objects that are not a valid remote can be added, but they will not point to anything.
+### Example
+``` 
+~/super $ cat .ptrs
+~/super $
+~/super $ repoptr add https://github.com/user/example.git
+~/super $ cat .ptrs
+~/super $ https://github.com/user/example.git
+```
