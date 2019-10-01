@@ -30,6 +30,23 @@ do_add() {
     fi
 }
 
+do_rm() {
+    if [[ -e .ptrs ]]; then
+        for arg in $@; do
+            grep -q "$arg" < .ptrs
+            if [[ $? -eq 0 ]]; then
+                sed -i "/$arg/d" .ptrs
+                echo $arg 'no longer pointed to'
+            else
+                echo 'Nothing to be removed'
+            fi
+        done
+    else
+        echo "repoptr: fatal. repoptr not initilized"
+        invalid_use
+    fi
+}
+
 check_ptrs() {
     rm temp 2>>/dev/null
     while read line; do
@@ -53,6 +70,8 @@ elif [[ $1 == 'init' ]]; then
     do_init
 elif [[ $1 == 'add' ]]; then
     do_add ${@:2}
+elif [[ $1 == 'rm' ]]; then
+    do_rm ${@:2}
 fi
 
 
