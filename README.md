@@ -29,3 +29,17 @@ Run `repoptr add [remote]` to add a remote repo to point to. Your local version 
 ~/super $ cat .ptrs
 ~/super $ https://github.com/user/example.git
 ```
+## repoptr rm
+Run `repoptr rm [remote]` to remove a remote repo to point to. Your local version of the remote repo will no longer be updated whenever `reoptr update` is run. If you remove a repo you were not pointing to nothing will happen.
+### Example
+```
+~/super $ cat .ptrs
+~/super $ https://github.com/user/example.git
+https://github.com/user/other.git
+~/super $ repoptr rm https://github.com/user/example.git
+~/super $ https://github.com/user/example.git no longer pointed to
+~/super $ cat .ptrs
+~/super $ https://github.com/user/other.git
+~/super $ repoptr rm garbage
+~/super $ Nothing to be removed
+```
