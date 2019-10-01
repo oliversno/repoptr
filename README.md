@@ -50,3 +50,6 @@ Run `repoptr list` to list all pointed to remotes.
 ~/super $ repoptr list
 ~/super $ https://github.com/user/example.git
 https://github.com/user/other.git
+```
+## repoptr update
+Run `repoptr update <repos| --all>` to clone pointed to remotes. specify remote repos to clone only them, otherwise use --all.
