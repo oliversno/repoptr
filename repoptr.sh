@@ -70,8 +70,19 @@ do_update(){
                 fi
             done
         fi
-        for repo in $repos; do
-            git clone $repo
+        echo 
+        for repo in "${repos[@]}"; do
+            #The regex matches anything 
+            # with a look behind for / 
+            # (with a negative lookahead for anythin followed by /)
+            # to find the last / and a lookahead for .git
+            # so match anything preceded by the last / and followed by .git
+            dir_name=`echo "$repo" | grep -o -P '(?<=\/(?!.*\/)).*(?=\.git)'`
+            if [[ -d ../$dir_name ]]; then
+                (cd ../$dir_name && git pull $repo)
+            else
+                (cd .. && git clone $repo)
+            fi
         done
     else
         echo "repoptr: fatal. repoptr not initilized"
