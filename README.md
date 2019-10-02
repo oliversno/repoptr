@@ -52,4 +52,4 @@ Run `repoptr list` to list all pointed to remotes.
 https://github.com/user/other.git
 ```
 ## repoptr update
-Run `repoptr update <repos| --all>` to clone pointed to remotes. specify remote repos to clone only them, otherwise use --all.
+Run `repoptr update <repos| --all>` to clone/pull pointed to remotes. specify remote repos to clone only them, otherwise use --all.
